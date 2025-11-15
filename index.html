@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BrainFart | Interactive Environmental Engineering</title>
 
-  <!-- Tailwind + Fira Code Font (like reference site) -->
+  <!-- Tailwind + Fira Code Font -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,6 +50,26 @@
     .text-accent { color: var(--accent); }
     .text-dim { color: var(--dim); }
     .bg-card { background-color: var(--card); }
+
+    /* Hover scale + glow for cards */
+    .project-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .project-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 15px 35px rgba(0, 182, 76, 0.2);
+      border-color: transparent;
+      cursor: pointer;
+    }
+
+    /* Pulse animation for toggle */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .pulse {
+      animation: pulse 0.4s ease-out;
+    }
   </style>
 </head>
 
@@ -63,37 +83,46 @@
         <!-- ✅ Profile: Cut-off "BrainFart" -->
         <div class="mb-8">
           <div class="w-20 h-20 rounded-full bg-gray-700 mx-auto mb-4"></div>
-          <!-- 💥 Intentionally cut off: large font + nowrap + overflow hidden -->
+          <!-- 💥 Intentionally cut off -->
           <div class="overflow-hidden whitespace-nowrap text-center mb-2">
-            <h1 class="text-5xl font-normal text-accent tracking-tighter">BrainFart</h1>
+            <h1 class="text-5xl font-normal text-accent tracking-tighter leading-none">BrainFart</h1>
           </div>
-          <p class="text-center font-normal text-dim text-sm">Glenn Alvin</p>
-          <p class="text-center font-light text-xs mt-1 text-dim">
+          <p class="text-center font-medium text-gray-300 text-sm">Glenn Alvin</p>
+          <p class="text-center font-light text-xs mt-1 text-gray-400">
             Environmental Engineering · Indonesia
           </p>
-          <p class="text-center font-light text-xs mt-1 text-dim opacity-80">
+          <p class="text-center font-light text-xs mt-1 text-gray-500 opacity-80">
             Air pollution • Unconventional energy • Sustainability
           </p>
         </div>
 
-        <!-- ✅ Navigation — minimal weight, no bullets -->
+        <!-- Navigation -->
         <nav class="space-y-2 mb-8">
-          <a href="#simulations" class="block font-normal text-sm text-dim hover:text-accent transition">⚡️ Interactive Projects</a>
-          <a href="#data" class="block font-normal text-sm text-dim hover:text-accent transition">📊 Live Data Feeds</a>
-          <a href="#about" class="block font-normal text-sm text-dim hover:text-accent transition">📚 Featured Concepts</a>
+          <a href="#simulations" class="block font-normal text-sm text-gray-400 hover:text-accent transition">⚡️ Interactive Projects</a>
+          <a href="#data" class="block font-normal text-sm text-gray-400 hover:text-accent transition">📊 Live Data Feeds</a>
+          <a href="#about" class="block font-normal text-sm text-gray-400 hover:text-accent transition">📚 Featured Concepts</a>
         </nav>
 
-        <!-- ✅ Links — clean, spaced, no icons needed (like reference) -->
+        <!-- Links -->
         <div class="mb-8 space-y-2">
-          <h3 class="text-xs font-normal text-dim uppercase tracking-wider mb-1">connect</h3>
-          <a href="#" class="block font-normal text-sm text-dim hover:text-accent transition">linkedin</a>
-          <a href="mailto:glennalvin17@gmail.com" class="block font-normal text-sm text-dim hover:text-accent transition">email</a>
-          <a href="#" class="block font-normal text-sm text-dim hover:text-accent transition">resume</a>
+          <h3 class="text-xs font-normal text-gray-500 uppercase tracking-wider mb-1">connect</h3>
+          <a href="https://linkedin.com/in/glennalvin" target="_blank" class="block font-normal text-sm text-gray-400 hover:text-accent transition">linkedin</a>
+          <a href="mailto:glennalvin17@gmail.com" class="block font-normal text-sm text-gray-400 hover:text-accent transition">email</a>
+          <a href="#" class="block font-normal text-sm text-gray-400 hover:text-accent transition">resume</a>
         </div>
 
-        <!-- ✅ Theme Toggle — simplified text -->
-        <button id="theme-toggle" class="mt-auto w-full py-2.5 font-normal text-sm rounded bg-accent text-card hover:opacity-90 transition">
-          toggle theme
+        <!-- ✅ Animated Theme Toggle -->
+        <button id="theme-toggle" 
+                class="mt-auto w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-accent text-card hover:opacity-90 transition"
+                aria-label="Toggle dark/light mode">
+          <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="hidden">
+            <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/>
+            <path d="M10 4v2m0 8v2M4 10h2m8 0h2M5.5 5.5l1.4 1.4m8.2-8.2 1.4 1.4m-11.2 11.2 1.4 1.4m8.2-8.2 1.4 1.4"/>
+          </svg>
+          <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="block">
+            <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM7 8a3 3 0 0 1 6 0c0 1.5-.5 2.8-1.3 3.8L10 14l-1.7-2.2A3 3 0 0 1 7 8z"/>
+          </svg>
+          <span class="text-sm">toggle theme</span>
         </button>
 
       </div>
@@ -103,11 +132,11 @@
     <main class="flex-grow p-6 lg:p-10 max-w-4xl">
       <header class="mb-12">
         <h2 class="text-3xl font-normal mb-3">Interactive Projects.</h2>
-        <p class="font-light text-dim leading-relaxed">
+        <p class="font-light text-gray-400 leading-relaxed">
           Hi, I'm <span class="font-medium">Glenn Alvin</span>, an Indonesian Environmental Engineering student
           and enthusiastic knowledge-sharer. This site is my personal challenge to simplify complex
           environmental concepts—like <span class="font-medium">air pollution</span> and <span class="font-medium">unconventional energy</span>—
-          through interactive models, proving you don't have to be a master coder to share valuable knowledge. Hope it's useful!
+          through interactive models, proving you don’t have to be a master coder to share valuable knowledge. Hope it’s useful!
         </p>
       </header>
 
@@ -115,27 +144,27 @@
       <section id="simulations" class="mb-16">
         <h3 class="text-2xl font-normal mb-6 text-accent">🔬 Featured Simulations</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-card p-5 rounded border border-zinc-800 hover:border-accent transition">
-            <h4 class="font-medium mb-2 text-accent">1. Salinity Gradient Model (RED)</h4>
-            <p class="text-sm font-light text-dim">
+          <div class="project-card bg-card p-5 rounded border border-zinc-800">
+            <h4 class="font-medium mb-2 text-accent">🧪 1. Salinity Gradient Model (RED)</h4>
+            <p class="text-sm font-light text-gray-400">
               <span class="font-medium">The Chemical Waterfall:</span> Explore how cost and efficiency of
               <span class="font-medium">Reverse Electrodialysis (RED)</span> membranes affect energy viability
               from mixing fresh and salt water.
             </p>
-            <div class="mt-4 h-48 bg-zinc-900/50 rounded flex items-center justify-center text-dim text-xs">
+            <div class="mt-4 h-48 bg-zinc-900/50 rounded flex items-center justify-center text-gray-500 text-xs">
               Paste Insight Maker Embed Code Here
             </div>
             <a href="#" class="mt-3 inline-block text-sm font-normal text-accent hover:underline">view analysis & code</a>
           </div>
 
-          <div class="bg-card p-5 rounded border border-zinc-800 hover:border-accent transition">
-            <h4 class="font-medium mb-2 text-accent">2. Gravity Storage Calculator (GPE)</h4>
-            <p class="text-sm font-light text-dim">
+          <div class="project-card bg-card p-5 rounded border border-zinc-800">
+            <h4 class="font-medium mb-2 text-accent">🏗️ 2. Gravity Storage Calculator (GPE)</h4>
+            <p class="text-sm font-light text-gray-400">
               <span class="font-medium">Storing Energy with Bricks:</span> A calculator for the massive
               <span class="font-medium">mass (M)</span> and <span class="font-medium">height (H)</span>
               needed to store renewable energy via gravitational potential.
             </p>
-            <div class="mt-4 h-48 bg-zinc-900/50 rounded flex items-center justify-center text-dim text-xs">
+            <div class="mt-4 h-48 bg-zinc-900/50 rounded flex items-center justify-center text-gray-500 text-xs">
               Paste Looker Studio or Custom Embed Here
             </div>
             <a href="#" class="mt-3 inline-block text-sm font-normal text-accent hover:underline">view calculator & code</a>
@@ -146,11 +175,11 @@
       <!-- Data -->
       <section id="data" class="mb-16">
         <h3 class="text-2xl font-normal mb-4 text-accent">📊 The Global Carbon Pulse</h3>
-        <p class="font-light text-dim mb-4">
+        <p class="font-light text-gray-400 mb-4">
           Tracking real-time indicators that define the challenge of climate mitigation and adaptation,
           powered by embedded public data feeds.
         </p>
-        <div class="bg-card h-96 rounded border border-zinc-800 flex items-center justify-center text-dim text-sm">
+        <div class="project-card bg-card h-96 rounded border border-zinc-800 flex items-center justify-center text-gray-500 text-sm">
           Paste Interactive Looker Studio Data Dashboard Here
         </div>
       </section>
@@ -158,43 +187,63 @@
       <!-- Concepts -->
       <section id="about" class="mb-12">
         <h3 class="text-2xl font-normal mb-4 text-accent">📚 Featured Concepts</h3>
-        <p class="font-light text-dim mb-6">
+        <p class="font-light text-gray-400 mb-6">
           Long-form analysis, academic summaries, and articles exploring the theoretical underpinnings
           of sustainability (linked to Medium or internal pages).
         </p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-card p-4 rounded border border-zinc-800">
             <a href="#" class="font-medium text-accent hover:underline">The Efficiency Ceiling of GPE Storage</a>
-            <p class="text-xs text-dim mt-1">Summary of key findings and technical barriers.</p>
+            <p class="text-xs text-gray-500 mt-1">Summary of key findings and technical barriers.</p>
           </div>
           <div class="bg-card p-4 rounded border border-zinc-800">
             <a href="#" class="font-medium text-accent hover:underline">Urban Air Pollution and Policy Delay</a>
-            <p class="text-xs text-dim mt-1">Analysis of $ \text{PM}_{2.5} $ trends in Southeast Asian cities.</p>
+            <p class="text-xs text-gray-500 mt-1">Analysis of PM<sub>2.5</sub> trends in Southeast Asian cities.</p>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Theme Toggle Script -->
+  <!-- ✅ Enhanced Theme Toggle Script -->
   <script>
-    const toggle = document.getElementById('theme-toggle');
-    const root = document.documentElement;
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('theme-toggle');
+      const sunIcon = document.getElementById('sun-icon');
+      const moonIcon = document.getElementById('moon-icon');
+      const root = document.documentElement;
 
-    const setTheme = (theme) => {
-      root.classList.toggle('light', theme === 'light');
-      root.classList.toggle('dark', theme === 'dark');
-      localStorage.setItem('theme', theme);
-      toggle.textContent = theme === 'dark' ? 'toggle theme' : 'toggle theme';
-    };
+      function setTheme(theme) {
+        root.classList.toggle('light', theme === 'light');
+        root.classList.toggle('dark', theme === 'dark');
+        
+        if (theme === 'dark') {
+          sunIcon.classList.add('hidden');
+          moonIcon.classList.remove('hidden');
+          toggle.setAttribute('aria-label', 'Switch to Light Mode');
+        } else {
+          sunIcon.classList.remove('hidden');
+          moonIcon.classList.add('hidden');
+          toggle.setAttribute('aria-label', 'Switch to Dark Mode');
+        }
+        
+        localStorage.setItem('theme', theme);
+        
+        // Pulse feedback
+        toggle.classList.add('pulse');
+        setTimeout(() => toggle.classList.remove('pulse'), 400);
+      }
 
-    const saved = localStorage.getItem('theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setTheme(saved);
+      // Load saved or system preference
+      const saved = localStorage.getItem('theme') ||
+        (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      setTheme(saved);
 
-    toggle.addEventListener('click', () => {
-      const isDark = root.classList.contains('dark');
-      setTheme(isDark ? 'light' : 'dark');
+      // Toggle on click
+      toggle.addEventListener('click', () => {
+        const isDark = root.classList.contains('dark');
+        setTheme(isDark ? 'light' : 'dark');
+      });
     });
   </script>
 </body>
