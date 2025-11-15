@@ -13,7 +13,7 @@
 <body>
   <div class="layout">
 
-    <!-- ✅ Sidebar -->
+    <!-- ✅ LEFT SIDEBAR -->
     <aside class="sidebar">
       <div class="profile">
         <div class="avatar"></div>
@@ -31,7 +31,6 @@
 
       <div class="links">
         <h3 class="section-title">connect</h3>
-        <!-- ✅ GLOWING LINKEDIN -->
         <a href="https://www.linkedin.com/in/glenn-alvin-ab1533255/" target="_blank" class="link glow">
           linkedin
         </a>
@@ -39,7 +38,6 @@
         <a href="#" class="link">resume</a>
       </div>
 
-      <!-- ✅ Animated Theme Toggle -->
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
         <div class="toggle-track">
           <div class="toggle-thumb"></div>
@@ -48,8 +46,10 @@
       </button>
     </aside>
 
-    <!-- ✅ Main Content -->
+    <!-- ✅ RIGHT COLUMN -->
     <main class="main">
+
+      <!-- Header -->
       <header>
         <h1>Interactive Projects.</h1>
         <p>
@@ -104,6 +104,9 @@
         </div>
       </section>
 
+      <!-- ✅ NEW SECTIONS ON RIGHT SIDE -->
+
+      <!-- Today's Pulse -->
       <section id="pulse" class="mb-16">
         <h2>🌍 Today’s Pulse — For You</h2>
         <div class="card">
@@ -117,35 +120,39 @@
         </div>
       </section>
 
-      <!-- ✅ NEW: Featured Work (fills right side) -->
-      <section id="work">
-        <h2>🚀 Featured Work</h2>
-        <div class="grid">
-          <div class="repo-card">
-            <div class="repo-header">
-              <span class="repo-name">pymine</span>
-              <span class="repo-lang">Python</span>
-            </div>
-            <p class="repo-desc">Python learns to play Minecraft (TOTALLY not copying <a href="https://github.com/Sentdex/pygta5" target="_blank">pygta5</a>)</p>
-            <div class="repo-meta">
-              <span>★ 13</span>
-              <span>🍴 0</span>
-            </div>
-          </div>
-
-          <div class="repo-card">
-            <div class="repo-header">
-              <span class="repo-name">red-simulator</span>
-              <span class="repo-lang">JavaScript</span>
-            </div>
-            <p class="repo-desc">Interactive model for Salinity Gradient Power (RED) systems.</p>
-            <div class="repo-meta">
-              <span>★ 8</span>
-              <span>🍴 2</span>
-            </div>
-          </div>
+      <!-- Carbon Footprint -->
+      <section id="carbon" class="mb-16">
+        <h2>📉 Your Carbon Footprint — On This Site</h2>
+        <div class="card">
+          <p>You’ve been here for <span id="time-spent">0</span> seconds.</p>
+          <p>Your estimated carbon footprint: <strong><span id="carbon-value">0.0</span> g CO₂</strong></p>
+          <p>That’s like <span id="equivalent">--</span></p>
+          <small class="dim">Based on average device energy use</small>
         </div>
       </section>
+
+      <!-- Thesis Snippet -->
+      <section id="thesis" class="mb-16">
+        <h2>🎓 Thesis Snippet — Auto-Rotating</h2>
+        <div class="card">
+          <div id="thesis-content" class="loading">🔄 Loading latest snippet...</div>
+          <small class="dim">Updated daily · Source: Your Medium/Notion</small>
+        </div>
+      </section>
+
+      <!-- Learn With Me -->
+      <section id="learn" class="mb-16">
+        <h2>📬 Learn With Me</h2>
+        <div class="card">
+          <p>Get monthly breakdowns of energy + environment models — no spam, just insight.</p>
+          <form id="newsletter-form" class="mt-2">
+            <input type="email" placeholder="your@email.com" class="input" required>
+            <button type="submit" class="btn">Subscribe</button>
+          </form>
+          <div id="form-status" class="hidden mt-2 text-sm"></div>
+        </div>
+      </section>
+
     </main>
   </div>
 
