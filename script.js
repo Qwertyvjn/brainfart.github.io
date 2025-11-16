@@ -41,10 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fallbackData();
   }
 
+  // ✅ EDIT FALLBACK DATA HERE (if location fails)
   function fallbackData() {
     document.getElementById('city-name').textContent = 'Global';
     document.getElementById('aqi-value').textContent = '65';
     document.getElementById('aqi-category').textContent = 'Moderate';
+    // ✅ UPDATE CO₂ VALUE HERE (e.g., "429")
     document.getElementById('co2-value').textContent = '428';
     document.getElementById('temp-value').textContent = '18';
     document.getElementById('aqi-display').classList.remove('hidden');
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('time-spent').textContent = secs;
     document.getElementById('carbon-value').textContent = co2.toFixed(1);
     
+    // ✅ EDIT EQUIVALENTS HERE (add/remove items)
     const equivalents = [
       "0.001 g of rice",
       "0.01 g of coffee",
@@ -70,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('equivalent').textContent = equivalents[idx];
   }, 1000);
 
-  // Thesis rotation
+  // ✅ EDIT THESIS SNIPPETS HERE (add as many as you like)
   const snippets = [
     "Policy lag explains 62% of PM₂.₅ exceedance in Jakarta (2020–2024).",
     "Reverse Electrodialysis efficiency drops 30% when membrane cost exceeds $20/m².",
