@@ -72,3 +72,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('theme', isDark ? 'light' : 'dark');
   });
 });
+
+// Render pulse
+const p = content.pulse.fallback;
+document.getElementById('pulse').innerHTML = `
+  <h2>${content.pulse.title}</h2>
+  <div class="card">
+    <div class="city-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.27-.13-.53-.23-.75C5.3 10.4 4 9.1 4 7.5 4 5.9 5.3 4.6 7 4.6c1.7 0 3 1.3 3 2.9 0 1.6-1.3 2.9-3 2.9 0 0-1 0-1-1h2c>
