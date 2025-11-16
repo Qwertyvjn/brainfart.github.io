@@ -1,94 +1,90 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const root = document.documentElement;
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  root.classList.toggle('light', savedTheme === 'light');
-  root.classList.toggle('dark', savedTheme === 'dark');
+// ===== TODAY'S PULSE - REAL-TIME DATA FEEDS =====
 
-  // Theme toggle
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    const isDark = root.classList.contains('dark');
-    root.classList.toggle('light', isDark);
-    root.classList.toggle('dark', !isDark);
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-  });
-
-  // Fetch local data
+// Get user's location (if permitted)
+function getLocation() {
+  const locationData = document.getElementById('location-data');
+  const aqiDisplay = document.getElementById('aqi-display');
+  
   if (navigator.geolocation) {
+    locationData.textContent = '📍 Detecting your location...';
+    
     navigator.geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-        document.getElementById('location-data').textContent = '📍 Loading...';
-
-        // Open-Meteo (free, no key)
-        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,co2_ppm`)
-          .then(res => res.json())
-          .then(data => {
-            const temp = data.current?.temperature_2m ?? '--';
-            const co2 = data.current?.co2_ppm ? Math.round(data.current.co2_ppm) : '--';
-            document.getElementById('temp-value').textContent = temp;
-            document.getElementById('co2-value').textContent = co2;
-            document.getElementById('city-name').textContent = 'Near you';
-            document.getElementById('aqi-value').textContent = '—';
-            document.getElementById('aqi-category').textContent = '—';
-            document.getElementById('aqi-display').classList.remove('hidden');
-            document.getElementById('location-data').remove();
-          })
-          .catch(() => fallbackData());
+      success => {
+        fetchAirQuality(success.coords.latitude, success.coords.longitude);
       },
-      () => fallbackData()
+      error => {
+        locationData.textContent = '❌ Location access denied. Using default city.';
+        fetchAirQuality(-6.2088, 106.8456); // Jakarta as fallback
+      }
     );
   } else {
-    fallbackData();
+    locationData.textContent = '❌ Geolocation not supported. Using default city.';
+    fetchAirQuality(-6.2088, 106.8456); // Jakarta
   }
+}
 
-  // ✅ EDIT FALLBACK DATA HERE (if location fails)
-  function fallbackData() {
-    document.getElementById('city-name').textContent = 'Global';
-    document.getElementById('aqi-value').textContent = '65';
-    document.getElementById('aqi-category').textContent = 'Moderate';
-    // ✅ UPDATE CO₂ VALUE HERE (e.g., "429")
-    document.getElementById('co2-value').textContent = '428';
-    document.getElementById('temp-value').textContent = '18';
-    document.getElementById('aqi-display').classList.remove('hidden');
-    document.getElementById('location-data').remove();
+// Fetch Air Quality Index (AQI) from OpenWeatherMap
+async function fetchAirQuality(lat, lon) {
+  const apiKey = 'YOUR_OPENWEATHER_API_KEY'; // ← GET ONE FREE AT https://openweathermap.org/api
+  const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.list && data.list[0]) {
+      const aqi = data.list[0].main.aqi;
+      const co2 = Math.round(data.list[0].components.co);
+      const temp = Math.round(data.list[0].components.no2 / 10); // Placeholder temp logic
+
+      // Map AQI to category
+      const categories = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
+      const category = categories[aqi - 1] || 'Unknown';
+
+      document.getElementById('city-name').textContent = 'Your City';
+      document.getElementById('aqi-value').textContent = aqi;
+      document.getElementById('aqi-category').textContent = category;
+      document.getElementById('co2-value').textContent = co2;
+      document.getElementById('temp-value').textContent = temp;
+
+      document.getElementById('location-data').classList.add('hidden');
+      aqiDisplay.classList.remove('hidden');
+    }
+  } catch (err) {
+    console.error('Error fetching air quality:', err);
+    document.getElementById('location-data').textContent = '⚠️ Data unavailable';
   }
+}
 
-  // Carbon counter
-  let start = Date.now();
-  setInterval(() => {
-    const secs = Math.floor((Date.now() - start) / 1000);
-    const co2 = (secs / 60) * 0.3;
-    document.getElementById('time-spent').textContent = secs;
-    document.getElementById('carbon-value').textContent = co2.toFixed(1);
-    
-    // ✅ EDIT EQUIVALENTS HERE (add/remove items)
-    const equivalents = [
-      "0.001 g of rice",
-      "0.01 g of coffee",
-      "0.1 g of bread",
-      "1 g of chocolate",
-      "10 g of beef"
-    ];
-    const idx = Math.min(Math.floor(co2 / 2), equivalents.length - 1);
-    document.getElementById('equivalent').textContent = equivalents[idx];
-  }, 1000);
+// ===== CARBON FOOTPRINT COUNTER =====
 
-  // ✅ EDIT THESIS SNIPPETS HERE (add as many as you like)
-  const snippets = [
-    "Policy lag explains 62% of PM₂.₅ exceedance in Jakarta (2020–2024).",
-    "Reverse Electrodialysis efficiency drops 30% when membrane cost exceeds $20/m².",
-    "Gravitational storage requires 10x more mass than lithium batteries for same energy density."
-  ];
-  let i = 0;
-  setInterval(() => {
-    document.getElementById('thesis-content').textContent = snippets[i];
-    i = (i + 1) % snippets.length;
-  }, 8000);
+let secondsSpent = 0;
+const timeSpentEl = document.getElementById('time-spent');
+const carbonValueEl = document.getElementById('carbon-value');
+const equivalentEl = document.getElementById('equivalent');
 
-  // Newsletter
-  document.getElementById('newsletter-form').addEventListener('submit', e => {
-    e.preventDefault();
-    alert('✅ Thanks! Check your inbox.');
-    e.target.reset();
-  });
+setInterval(() => {
+  secondsSpent++;
+  timeSpentEl.textContent = secondsSpent;
+
+  // Estimate CO2 per second (based on avg web page energy use ~0.0003g CO2/sec)
+  const co2Grams = (secondsSpent * 0.0003).toFixed(1);
+  carbonValueEl.textContent = co2Grams;
+
+  // Equivalent: 1g rice ≈ 1g CO2 (roughly)
+  const riceEquivalent = (co2Grams * 1).toFixed(3);
+  equivalentEl.textContent = `${riceEquivalent} g of rice`;
+}, 1000);
+
+// ===== THEME TOGGLE =====
+
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark');
+});
+
+// ===== INIT ON LOAD =====
+
+document.addEventListener('DOMContentLoaded', () => {
+  getLocation();
 });
