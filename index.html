@@ -46,114 +46,125 @@
       </button>
     </aside>
 
-    <!-- ✅ RIGHT COLUMN -->
+    <!-- ✅ MAIN CONTENT - TWO COLUMNS -->
     <main class="main">
+      <div class="content-columns">
 
-      <!-- Header -->
-      <header>
-        <h1>Interactive Projects.</h1>
-        <p>
-          Hi, I'm <strong>Glenn Alvin</strong>, an Indonesian Environmental Engineering student
-          and enthusiastic knowledge-sharer. This site is my personal challenge to simplify complex
-          environmental concepts—like <strong>air pollution</strong> and <strong>unconventional energy</strong>—
-          through interactive models.
-        </p>
-      </header>
+        <!-- ✅ LEFT COLUMN: Projects & Data -->
+        <div class="left-column">
 
-      <!-- Simulations -->
-      <section id="simulations">
-        <h2>🔬 Featured Simulations</h2>
-        <div class="grid">
-          <div class="card">
-            <h3>🧪 Salinity Gradient Model (RED)</h3>
-            <p><strong>The Chemical Waterfall:</strong> Explore how cost and efficiency of <strong>Reverse Electrodialysis (RED)</strong> membranes affect energy viability.</p>
-            <div class="embed-placeholder">Paste Insight Maker Embed Code Here</div>
-            <a href="#" class="card-link">view analysis & code</a>
-          </div>
-          <div class="card">
-            <h3>🏗️ Gravity Storage Calculator (GPE)</h3>
-            <p><strong>Storing Energy with Bricks:</strong> A calculator for <strong>mass (M)</strong> and <strong>height (H)</strong> needed for gravitational storage.</p>
-            <div class="embed-placeholder">Paste Looker Studio or Custom Embed Here</div>
-            <a href="#" class="card-link">view calculator & code</a>
-          </div>
+          <!-- Header -->
+          <header>
+            <h1>Interactive Projects.</h1>
+            <p>
+              Hi, I'm <strong>Glenn Alvin</strong>, an Indonesian Environmental Engineering student
+              and enthusiastic knowledge-sharer. This site is my personal challenge to simplify complex
+              environmental concepts—like <strong>air pollution</strong> and <strong>unconventional energy</strong>—
+              through interactive models.
+            </p>
+          </header>
+
+          <!-- Simulations -->
+          <section id="simulations">
+            <h2>🔬 Featured Simulations</h2>
+            <div class="grid">
+              <div class="card">
+                <h3>🧪 Salinity Gradient Model (RED)</h3>
+                <p><strong>The Chemical Waterfall:</strong> Explore how cost and efficiency of <strong>Reverse Electrodialysis (RED)</strong> membranes affect energy viability.</p>
+                <div class="embed-placeholder">Paste Insight Maker Embed Code Here</div>
+                <a href="#" class="card-link">view analysis & code</a>
+              </div>
+              <div class="card">
+                <h3>🏗️ Gravity Storage Calculator (GPE)</h3>
+                <p><strong>Storing Energy with Bricks:</strong> A calculator for <strong>mass (M)</strong> and <strong>height (H)</strong> needed for gravitational storage.</p>
+                <div class="embed-placeholder">Paste Looker Studio or Custom Embed Here</div>
+                <a href="#" class="card-link">view calculator & code</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Data -->
+          <section id="data">
+            <h2>📊 The Global Carbon Pulse</h2>
+            <p>Tracking real-time indicators for climate mitigation, powered by public data feeds.</p>
+            <div class="card full">
+              <div class="embed-placeholder large">Paste Interactive Looker Studio Dashboard Here</div>
+            </div>
+          </section>
+
+          <!-- Concepts -->
+          <section id="about">
+            <h2>📚 Featured Concepts</h2>
+            <p>Long-form analysis and articles on sustainability theory.</p>
+            <div class="grid">
+              <div class="card concept">
+                <a href="#" class="card-title">The Efficiency Ceiling of GPE Storage</a>
+                <p class="card-desc">Summary of key findings and technical barriers.</p>
+              </div>
+              <div class="card concept">
+                <a href="#" class="card-title">Urban Air Pollution and Policy Delay</a>
+                <p class="card-desc">Analysis of PM<sub>2.5</sub> trends in Southeast Asian cities.</p>
+              </div>
+            </div>
+          </section>
+
         </div>
-      </section>
 
-      <!-- Data -->
-      <section id="data">
-        <h2>📊 The Global Carbon Pulse</h2>
-        <p>Tracking real-time indicators for climate mitigation, powered by public data feeds.</p>
-        <div class="card full">
-          <div class="embed-placeholder large">Paste Interactive Looker Studio Dashboard Here</div>
+        <!-- ✅ RIGHT COLUMN: Widgets -->
+        <div class="right-column">
+
+          <!-- Today's Pulse -->
+          <section id="pulse" class="mb-16">
+            <h2>🌍 Today’s Pulse — For You</h2>
+            <div class="card">
+              <div id="location-data" class="loading">📍 Detecting your location...</div>
+              <div id="aqi-display" class="hidden">
+                <p><strong>Air Quality:</strong> <span id="aqi-value">--</span> (<span id="aqi-category">--</span>)</p>
+                <p><strong>CO₂:</strong> <span id="co2-value">--</span> ppm</p>
+                <p><strong>Temp:</strong> <span id="temp-value">--</span>°C</p>
+                <small class="dim">Data: IQAir + Open-Meteo · Free APIs</small>
+              </div>
+            </div>
+          </section>
+
+          <!-- Carbon Footprint -->
+          <section id="carbon" class="mb-16">
+            <h2>📉 Your Carbon Footprint — On This Site</h2>
+            <div class="card">
+              <p>You’ve been here for <span id="time-spent">0</span> seconds.</p>
+              <p>Your estimated carbon footprint: <strong><span id="carbon-value">0.0</span> g CO₂</strong></p>
+              <p>That’s like <span id="equivalent">--</span></p>
+              <small class="dim">Based on average device energy use</small>
+            </div>
+          </section>
+
+          <!-- Thesis Snippet -->
+          <section id="thesis" class="mb-16">
+            <h2>🎓 Thesis Snippet — Auto-Rotating</h2>
+            <div class="card">
+              <div id="thesis-content" class="loading">🔄 Loading latest snippet...</div>
+              <small class="dim">Updated daily · Source: Your Medium/Notion</small>
+            </div>
+          </section>
+
+          <!-- Learn With Me -->
+          <section id="learn" class="mb-16">
+            <h2>📬 Learn With Me</h2>
+            <div class="card">
+              <p>Get monthly breakdowns of energy + environment models — no spam, just insight.</p>
+              <form id="newsletter-form" class="mt-2">
+                <input type="email" placeholder="your@email.com" class="input" required>
+                <button type="submit" class="btn">Subscribe</button>
+              </form>
+              <div id="form-status" class="hidden mt-2 text-sm"></div>
+            </div>
+          </section>
+
         </div>
-      </section>
 
-      <!-- Concepts -->
-      <section id="about">
-        <h2>📚 Featured Concepts</h2>
-        <p>Long-form analysis and articles on sustainability theory.</p>
-        <div class="grid">
-          <div class="card concept">
-            <a href="#" class="card-title">The Efficiency Ceiling of GPE Storage</a>
-            <p class="card-desc">Summary of key findings and technical barriers.</p>
-          </div>
-          <div class="card concept">
-            <a href="#" class="card-title">Urban Air Pollution and Policy Delay</a>
-            <p class="card-desc">Analysis of PM<sub>2.5</sub> trends in Southeast Asian cities.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ✅ NEW SECTIONS ON RIGHT SIDE -->
-
-      <!-- Today's Pulse -->
-      <section id="pulse" class="mb-16">
-        <h2>🌍 Today’s Pulse — For You</h2>
-        <div class="card">
-          <div id="location-data" class="loading">📍 Detecting your location...</div>
-          <div id="aqi-display" class="hidden">
-            <p><strong>Air Quality:</strong> <span id="aqi-value">--</span> (<span id="aqi-category">--</span>)</p>
-            <p><strong>CO₂:</strong> <span id="co2-value">--</span> ppm</p>
-            <p><strong>Temp:</strong> <span id="temp-value">--</span>°C</p>
-            <small class="dim">Data: OpenWeather API · Updated live</small>
-          </div>
-        </div>
-      </section>
-
-      <!-- Carbon Footprint -->
-      <section id="carbon" class="mb-16">
-        <h2>📉 Your Carbon Footprint — On This Site</h2>
-        <div class="card">
-          <p>You’ve been here for <span id="time-spent">0</span> seconds.</p>
-          <p>Your estimated carbon footprint: <strong><span id="carbon-value">0.0</span> g CO₂</strong></p>
-          <p>That’s like <span id="equivalent">--</span></p>
-          <small class="dim">Based on average device energy use</small>
-        </div>
-      </section>
-
-      <!-- Thesis Snippet -->
-      <section id="thesis" class="mb-16">
-        <h2>🎓 Thesis Snippet — Auto-Rotating</h2>
-        <div class="card">
-          <div id="thesis-content" class="loading">🔄 Loading latest snippet...</div>
-          <small class="dim">Updated daily · Source: Your Medium/Notion</small>
-        </div>
-      </section>
-
-      <!-- Learn With Me -->
-      <section id="learn" class="mb-16">
-        <h2>📬 Learn With Me</h2>
-        <div class="card">
-          <p>Get monthly breakdowns of energy + environment models — no spam, just insight.</p>
-          <form id="newsletter-form" class="mt-2">
-            <input type="email" placeholder="your@email.com" class="input" required>
-            <button type="submit" class="btn">Subscribe</button>
-          </form>
-          <div id="form-status" class="hidden mt-2 text-sm"></div>
-        </div>
-      </section>
-
+      </div>
     </main>
+
   </div>
 
   <script src="script.js"></script>
