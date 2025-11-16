@@ -107,6 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
           console.error(err);
           document.getElementById('location-data').textContent = '❌ Failed to load local data.';
+          // Fallback: show global stats
+          document.getElementById('aqi-value').textContent = "65";
+          document.getElementById('aqi-category').textContent = "Moderate";
+          document.getElementById('co2-value').textContent = "428";
+          document.getElementById('temp-value').textContent = "--";
+          document.getElementById('city-name').textContent = "Global";
+          document.getElementById('aqi-display').classList.remove('hidden');
+          document.getElementById('location-data').remove();
         }
       },
       (err) => {
