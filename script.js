@@ -1,19 +1,17 @@
-// ===== TODAY'S PULSE — IQAir (AirVisual) Integration =====
+// ===== TODAY'S PULSE — IQAir Integration (Safe & Robust) =====
 
 function getLocation() {
   const locationData = document.getElementById('location-data');
-  if (!locationData) return console.warn('location-data element not found');
+  if (!locationData) return;
 
   locationData.textContent = '📍 Detecting your location...';
   locationData.classList.remove('hidden');
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      success => {
-        fetchIQAirData(success.coords.latitude, success.coords.longitude);
-      },
+      success => fetchIQAirData(success.coords.latitude, success.coords.longitude),
       error => {
-        console.warn('Geolocation denied or error:', error);
+        console.warn('Geolocation denied:', error);
         locationData.textContent = '❌ Location access denied. Using Jakarta.';
         fetchIQAirData(-6.2088, 106.8456); // Jakarta fallback
       }
@@ -25,7 +23,7 @@ function getLocation() {
 }
 
 async function fetchIQAirData(lat, lon) {
-  const API_KEY = f74e14f9-86c9-4246-8065-ec2018624690; // 🔑 ← REPLACE THIS WITH YOUR ACTUAL KEY
+  const API_KEY =f74e14f9-86c9-4246-8065-ec2018624690; // 🔑 REPLACE THIS
 
   const url = `https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${API_KEY}`;
 
@@ -34,16 +32,16 @@ async function fetchIQAirData(lat, lon) {
     const data = await res.json();
 
     if (data.status !== 'success' || !data.data) {
-      throw new Error(data.data || 'Invalid API response');
+      throw new Error('Invalid response from IQAir');
     }
 
     const city = data.data.city || 'Nearby City';
     const state = data.data.state || '';
     const aqius = data.data.current.pollution.aqius;
     const tempC = data.data.current.weather.tp;
-    const co2Estimate = Math.round(400 + (aqius / 300) * 150); // Approximation
+    const co2Estimate = Math.round(400 + (aqius / 300) * 150);
 
-    // EPA AQI Categories
+    // AQI Category Mapping
     const categories = [
       { max: 50, name: 'Good', color: '#00e400' },
       { max: 100, name: 'Moderate', color: '#ffff00' },
@@ -54,37 +52,32 @@ async function fetchIQAirData(lat, lon) {
     ];
     const category = categories.find(c => aqius <= c.max) || categories[0];
 
-    // Safely update DOM
-    const elements = {
-      aqiDisplay: document.getElementById('aqi-display'),
-      cityName: document.getElementById('city-name'),
-      aqiValue: document.getElementById('aqi-value'),
-      aqiCategory: document.getElementById('aqi-category'),
-      co2Value: document.getElementById('co2-value'),
-      tempValue: document.getElementById('temp-value'),
-    };
+    // DOM Elements
+    const aqiDisplay = document.getElementById('aqi-display');
+    const cityName = document.getElementById('city-name');
+    const aqiValue = document.getElementById('aqi-value');
+    const aqiCategory = document.getElementById('aqi-category');
+    const co2Value = document.getElementById('co2-value');
+    const tempValue = document.getElementById('temp-value');
 
-    if (!Object.values(elements).every(el => el)) {
+    if (!aqiDisplay || !cityName || !aqiValue || !aqiCategory || !co2Value || !tempValue) {
       throw new Error('Required DOM elements missing');
     }
 
-    elements.cityName.textContent = `${city}${state ? `, ${state}` : ''}`;
-    elements.aqiValue.textContent = aqius;
-    elements.aqiCategory.textContent = category.name;
-    elements.aqiCategory.style.color = category.color;
-    elements.co2Value.textContent = co2Estimate;
-    elements.tempValue.textContent = tempC;
+    cityName.textContent = `${city}${state ? `, ${state}` : ''}`;
+    aqiValue.textContent = aqius;
+    aqiCategory.textContent = category.name;
+    aqiCategory.style.color = category.color;
+    co2Value.textContent = co2Estimate;
+    tempValue.textContent = tempC;
 
     locationData.classList.add('hidden');
-    elements.aqiDisplay.classList.remove('hidden');
+    aqiDisplay.classList.remove('hidden');
   } catch (err) {
-    console.error('IQAir API error:', err);
+    console.error('IQAir error:', err);
     const locationData = document.getElementById('location-data');
     const aqiDisplay = document.getElementById('aqi-display');
-    if (locationData) {
-      locationData.textContent = `⚠️ Data unavailable: ${err.message}`;
-      locationData.classList.remove('hidden');
-    }
+    if (locationData) locationData.textContent = `⚠️ Data unavailable`;
     if (aqiDisplay) aqiDisplay.classList.add('hidden');
   }
 }
@@ -106,7 +99,7 @@ if (timeSpentEl && carbonValueEl && equivalentEl) {
   }, 1000);
 }
 
-// ===== THEME TOGGLE — SAFE INIT =====
+// ===== THEME TOGGLE =====
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
@@ -115,6 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Init data
+  // Init pulse
   getLocation();
 });
