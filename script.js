@@ -99,7 +99,7 @@ if (timeSpentEl && carbonValueEl && equivalentEl) {
   }, 1000);
 }
 
-// ===== THEME TOGGLE — FIXED =====
+// ===== THEME TOGGLE — FIXED (Now works reliably) =====
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
