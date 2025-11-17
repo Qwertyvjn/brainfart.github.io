@@ -73,19 +73,39 @@ async function fetchIQAirData(lat, lon) {
 }
 
 // ===== CARBON FOOTPRINT COUNTER (unchanged) =====
-let secondsSpent = 0;
-const timeSpentEl = document.getElementById('time-spent');
-const carbonValueEl = document.getElementById('carbon-value');
-const equivalentEl = document.getElementById('equivalent');
+// ... (your IQAir functions are above this line) ...
 
-setInterval(() => {
-  secondsSpent++;
-  timeSpentEl.textContent = secondsSpent;
-  const co2Grams = (secondsSpent * 0.0003).toFixed(1);
-  carbonValueEl.textContent = co2Grams;
-  const riceEquivalent = (co2Grams * 1).toFixed(3);
-  equivalentEl.textContent = `${riceEquivalent} g of rice`;
-}, 1000);
+// ===== CORE INITIALIZATION (FIXED) =====
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- 2. ✅ FIX: CARBON FOOTPRINT COUNTER ---
+    let secondsSpent = 0;
+    const timeSpentEl = document.getElementById('time-spent');
+    const carbonValueEl = document.getElementById('carbon-value');
+    const equivalentEl = document.getElementById('equivalent');
+
+    // Now, the elements are guaranteed to exist when this code runs
+    if (timeSpentEl && carbonValueEl && equivalentEl) {
+        // Run the counter function every 1000 milliseconds (1 second)
+        setInterval(() => {
+            secondsSpent++;
+            timeSpentEl.textContent = secondsSpent;
+            
+            // Your CO2 calculation: (secondsSpent * 0.0003 g/s)
+            const co2Grams = (secondsSpent * 0.0003).toFixed(1); 
+            carbonValueEl.textContent = co2Grams;
+            
+            // Re-evaluating the rice equivalent based on your example (0.001 g rice for 0.0 g CO2)
+            const riceEquivalent = (parseFloat(co2Grams) * 3333.33).toFixed(3); 
+            equivalentEl.textContent = `${riceEquivalent} g of rice`;
+        }, 1000);
+    }
+    // ------------------------------------------
+
+    // ... (Your theme toggle logic should also be in this block) ...
+
+    // ... (Your getLocation() call should also be in this block) ...
+});
 
 // ===== THEME TOGGLE =====
 document.getElementById('theme-toggle')?.addEventListener('click', () => {
