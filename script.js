@@ -8,11 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggle.addEventListener('click', () => {
       console.log('🎯 Toggle clicked!');
       document.documentElement.classList.toggle('dark');
-      
+
       // Force browser to re-render styles
       setTimeout(() => {
-        document.body.style.transition = 'background 0.3s';
-      }, 10);
+        document.body.style.backgroundColor = 'transparent';
+        setTimeout(() => {
+          document.body.style.backgroundColor = '';
+        }, 0);
+      }, 0);
     });
   }
 
