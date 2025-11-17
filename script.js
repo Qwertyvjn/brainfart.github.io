@@ -1,118 +1,48 @@
-// ===== TODAY'S PULSE — IQAir (AirVisual) Integration =====
+// TEST VERSION — ONLY THEME TOGGLE + CARBON COUNTER
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('✅ Script loaded successfully!');
 
-function getLocation() {
-  const locationData = document.getElementById('location-data');
-  const aqiDisplay = document.getElementById('aqi-display');
-  
-  if (navigator.geolocation) {
-    locationData.textContent = '📍 Detecting your location...';
-    navigator.geolocation.getCurrentPosition(
-      success => {
-        fetchIQAirData(success.coords.latitude, success.coords.longitude);
-      },
-      error => {
-        locationData.textContent = '❌ Location denied. Using Jakarta.';
-        fetchIQAirData(-6.2088, 106.8456); // Jakarta fallback
-      }
-    );
+  // Theme toggle
+  const toggle = document.getElementById('theme-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      console.log('🎯 Theme toggled!');
+      document.documentElement.classList.toggle('dark');
+    });
   } else {
-    locationData.textContent = '❌ Geolocation unsupported. Using Jakarta.';
-    fetchIQAirData(-6.2088, 106.8456);
+    console.error('❌ #theme-toggle not found');
   }
-}
 
-async function fetchIQAirData(lat, lon) {
-  const API_KEY =f74e14f9-86c9-4246-8065-ec2018624690; // ← REPLACE THIS
-  const url = `https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${API_KEY}`;
+  // Carbon counter
+  let sec = 0;
+  const timeEl = document.getElementById('time-spent');
+  const co2El = document.getElementById('carbon-value');
+  const equivEl = document.getElementById('equivalent');
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (data.status === 'success' && data.data) {
-      const city = data.data.city || 'Nearby City';
-      const state = data.data.state || '';
-      const country = data.data.country || '';
-      const aqius = data.data.current.pollution.aqius; // US AQI
-      const mainus = data.data.current.pollution.mainus; // Main pollutant (e.g., 'p2')
-      const tempC = data.data.current.weather.tp; // °C
-      const humidity = data.data.current.weather.hu;
-      const windSpeed = data.data.current.weather.ws;
-
-      // Estimate CO₂ indirectly (⚠️ Note: IQAir does NOT provide direct CO₂)
-      // Approximation: In polluted urban areas, CO₂ often correlates loosely with NO₂/PM2.5
-      // We'll show a realistic *typical urban range* with disclaimer
-      const co2Estimate = Math.round(400 + (aqius / 300) * 150); // ~400–550 ppm
-
-      // AQI category (US EPA standard)
-      let category, color;
-      if (aqius <= 50) { category = 'Good'; color = '#00e400'; }
-      else if (aqius <= 100) { category = 'Moderate'; color = '#ffff00'; }
-      else if (aqius <= 150) { category = 'Unhealthy for Sensitive'; color = '#ff7e00'; }
-      else if (aqius <= 200) { category = 'Unhealthy'; color = '#ff0000'; }
-      else if (aqius <= 300) { category = 'Very Unhealthy'; color = '#8f3f97'; }
-      else { category = 'Hazardous'; color = '#7e0023'; }
-
-      // Update DOM
-      document.getElementById('city-name').textContent = `${city}${state ? `, ${state}` : ''}`;
-      document.getElementById('aqi-value').textContent = aqius;
-      document.getElementById('aqi-category').textContent = category;
-      document.getElementById('aqi-category').style.color = color;
-      document.getElementById('co2-value').textContent = co2Estimate;
-      document.getElementById('temp-value').textContent = tempC;
-
-      document.getElementById('location-data').classList.add('hidden');
-      aqiDisplay.classList.remove('hidden');
-    } else {
-      throw new Error(data.data || 'Unknown API error');
-    }
-  } catch (err) {
-    console.error('IQAir API error:', err);
-    document.getElementById('location-data').textContent = `⚠️ Data unavailable: ${err.message || 'Check console'}`;
+  if (timeEl && co2El && equivEl) {
+    setInterval(() => {
+      sec++;
+      timeEl.textContent = sec;
+      const co2 = (sec * 0.0003).toFixed(1);
+      co2El.textContent = co2;
+      equivEl.textContent = `${(co2 * 1).toFixed(3)} g of rice`;
+    }, 1000);
+    console.log('✅ Carbon counter started');
+  } else {
+    console.error('❌ Carbon elements missing:', { timeEl, co2El, equivEl });
   }
-}
 
-// ===== CARBON FOOTPRINT COUNTER (unchanged) =====
-// ... (your IQAir functions are above this line) ...
-
-// ===== CORE INITIALIZATION (FIXED) =====
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- 2. ✅ FIX: CARBON FOOTPRINT COUNTER ---
-    let secondsSpent = 0;
-    const timeSpentEl = document.getElementById('time-spent');
-    const carbonValueEl = document.getElementById('carbon-value');
-    const equivalentEl = document.getElementById('equivalent');
-
-    // Now, the elements are guaranteed to exist when this code runs
-    if (timeSpentEl && carbonValueEl && equivalentEl) {
-        // Run the counter function every 1000 milliseconds (1 second)
-        setInterval(() => {
-            secondsSpent++;
-            timeSpentEl.textContent = secondsSpent;
-            
-            // Your CO2 calculation: (secondsSpent * 0.0003 g/s)
-            const co2Grams = (secondsSpent * 0.0003).toFixed(1); 
-            carbonValueEl.textContent = co2Grams;
-            
-            // Re-evaluating the rice equivalent based on your example (0.001 g rice for 0.0 g CO2)
-            const riceEquivalent = (parseFloat(co2Grams) * 3333.33).toFixed(3); 
-            equivalentEl.textContent = `${riceEquivalent} g of rice`;
-        }, 1000);
-    }
-    // ------------------------------------------
-
-    // ... (Your theme toggle logic should also be in this block) ...
-
-    // ... (Your getLocation() call should also be in this block) ...
-});
-
-// ===== THEME TOGGLE =====
-document.getElementById('theme-toggle')?.addEventListener('click', () => {
-  document.documentElement.classList.toggle('dark');
-});
-
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-  getLocation();
+  // Pulse fallback (static)
+  const pulseDisplay = document.getElementById('aqi-display');
+  const locationData = document.getElementById('location-data');
+  if (pulseDisplay && locationData) {
+    locationData.classList.add('hidden');
+    pulseDisplay.classList.remove('hidden');
+    document.getElementById('city-name').textContent = 'Jakarta';
+    document.getElementById('aqi-value').textContent = '78';
+    document.getElementById('aqi-category').textContent = 'Moderate';
+    document.getElementById('co2-value').textContent = '470';
+    document.getElementById('temp-value').textContent = '29';
+    console.log('✅ Pulse fallback loaded');
+  }
 });
