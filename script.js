@@ -131,10 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. ✅ FIX: CARBON FOOTPRINT COUNTER (Logic moved inside DOMContentLoaded)
     // ===== CARBON FOOTPRINT COUNTER =====
+// ===== CARBON FOOTPRINT COUNTER =====
 let secondsSpent = 0;
 const timeSpentEl = document.getElementById('time-spent');
 const carbonValueEl = document.getElementById('carbon-value');
 const equivalentEl = document.getElementById('equivalent');
+const sourceEl = document.getElementById('rice-source'); // ← Add this ID to your HTML
 
 if (timeSpentEl && carbonValueEl && equivalentEl) {
   setInterval(() => {
@@ -145,9 +147,15 @@ if (timeSpentEl && carbonValueEl && equivalentEl) {
     const co2Grams = (secondsSpent * 0.0003).toFixed(1);
     carbonValueEl.textContent = co2Grams;
     
-    // REALISTIC RICE EQUIVALENT: 1g CO₂ = 1000g rice
-    const riceEquivalent = (parseFloat(co2Grams) * 1000).toFixed(3);
-    equivalentEl.textContent = `${riceEquivalent} g of rice`;
+    // REALISTIC RICE EQUIVALENT: 1g rice ≈ 1.8g CO₂e (based on avg from Our World in Data)
+    // So: g rice = g CO₂ / 1.8
+    const riceGrams = (parseFloat(co2Grams) / 1.8).toFixed(3);
+    equivalentEl.textContent = `${riceGrams} g of rice`;
+
+    // Optional: Update source text if element exists
+    if (sourceEl) {
+      sourceEl.textContent = 'Based on: 1g rice ≈ 1.8g CO₂e (Our World in Data)';
+    }
   }, 1000);
   console.log('✅ Carbon counter started');
 }
