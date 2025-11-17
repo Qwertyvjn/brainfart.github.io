@@ -102,17 +102,20 @@ if (timeSpentEl && carbonValueEl && equivalentEl) {
   }, 1000);
 }
 
-// ===== THEME TOGGLE — FIXED FOR REAL =====
+// ===== THEME TOGGLE — FIXED FOR REAL (Force Re-render) =====
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       console.log('🎯 Toggle clicked!');
       document.documentElement.classList.toggle('dark');
-      // Force re-render for some browsers
+      
+      // Force re-render
+      const oldBg = document.body.style.backgroundColor;
+      document.body.style.backgroundColor = 'transparent';
       setTimeout(() => {
-        document.body.style.transition = 'background 0.3s';
-      }, 10);
+        document.body.style.backgroundColor = oldBg;
+      }, 0);
     });
   }
 
