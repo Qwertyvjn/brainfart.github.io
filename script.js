@@ -1,8 +1,30 @@
 // ===== TODAY'S PULSE — IQAir Integration (Safe & Robust) =====
 
 function getLocation() {
+  function getLocation() {
   const locationData = document.getElementById('location-data');
-  if (!locationData) return;
+  if (!locationData) {
+    console.error('❌ #location-data element not found');
+    return;
+  }
+
+  locationData.textContent = '📍 Detecting your location...';
+  locationData.classList.remove('hidden');
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      success => fetchIQAirData(success.coords.latitude, success.coords.longitude),
+      error => {
+        console.warn('Geolocation denied:', error);
+        locationData.textContent = '❌ Location access denied. Using Jakarta.';
+        fetchIQAirData(-6.2088, 106.8456); // Jakarta fallback
+      }
+    );
+  } else {
+    locationData.textContent = '❌ Geolocation not supported. Using Jakarta.';
+    fetchIQAirData(-6.2088, 106.8456);
+  }
+}
 
   locationData.textContent = '📍 Detecting your location...';
   locationData.classList.remove('hidden');
@@ -100,11 +122,17 @@ if (timeSpentEl && carbonValueEl && equivalentEl) {
 }
 
 // ===== THEME TOGGLE — FIXED (Now works reliably) =====
+// ===== THEME TOGGLE — FIXED FOR REAL =====
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
+      console.log('🎯 Toggle clicked!');
       document.documentElement.classList.toggle('dark');
+      // Force re-render for some browsers
+      setTimeout(() => {
+        document.body.style.transition = 'background 0.3s';
+      }, 10);
     });
   }
 
