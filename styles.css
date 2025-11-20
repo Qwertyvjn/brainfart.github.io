@@ -264,7 +264,7 @@ p {
   }
 }
 
-/* ===== COMING SOON OVERLAY ===== */
+/* ===== COMING SOON CENTERED + BLUR ===== */
 .coming-soon-overlay {
   position: absolute;
   top: 0;
@@ -282,12 +282,12 @@ p {
 .coming-soon-text {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #00ff7f; /* Glowing green */
-  text-shadow: 0 0 8px #00ff7f, 0 0 16px #00ff7f;
-  animation: glow 1.5s ease-in-out infinite alternate;
+  color: transparent;
+  text-shadow: none;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
-@keyframes glow {
-  from { opacity: 0.8; }
-  to { opacity: 1; }
+.card:hover .coming-soon-text {
+  color: #00ff7f; /* Glowing green */
+  text-shadow: 0 0 8px #00ff7f, 0 0 16px #00ff7f;
 }
