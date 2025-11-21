@@ -267,7 +267,6 @@ p {
 }
 
 /* ===== COMING SOON — CENTERED + BLUR ON HOVER (ONLY FOR CARDS WITH .coming-soon-text) ===== */
-/* ===== COMING SOON — CENTERED + BLUR ON HOVER (ONLY FOR CARDS WITH .coming-soon-text) ===== */
 #content .card .coming-soon-text,
 #tools .card .coming-soon-text {
   position: absolute;
@@ -289,8 +288,14 @@ p {
   text-shadow: 0 0 8px #00ff7f, 0 0 16px #00ff7f;
 }
 
-#content .card:hover::before,
-#tools .card:hover::before {
+/* 🎯 CRITICAL FIX: Only add blur if .coming-soon-text exists */
+#content .card:hover:not(:has(.coming-soon-text))::before,
+#tools .card:hover:not(:has(.coming-soon-text))::before {
+  /* Do nothing — no blur for cards without .coming-soon-text */
+}
+
+#content .card:hover:has(.coming-soon-text)::before,
+#tools .card:hover:has(.coming-soon-text)::before {
   content: '';
   position: absolute;
   top: 0; left: 0;
