@@ -187,6 +187,7 @@ if (timeSpentEl && carbonValueEl && equivalentEl) {
     getLocation();
 });
 
+
 // ===== MODAL SYSTEM — SAFE & NON-INTRUSIVE =====
 document.addEventListener('DOMContentLoaded', () => {
   const modalOverlay = document.getElementById('modal-overlay');
