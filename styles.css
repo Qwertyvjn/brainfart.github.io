@@ -307,7 +307,7 @@ p {
   overflow: hidden;
 }
 
-/* ===== BUTTONS INSIDE CARDS ===== */
+/* ===== BUTTONS INSIDE CARDS — BOX STYLE ===== */
 .button-group {
   display: flex;
   gap: 0.5rem;
@@ -326,6 +326,7 @@ p {
   font-size: 0.875rem;
   transition: all 0.3s ease;
   text-align: center;
+  min-width: 120px;
 }
 
 .btn-material:hover,
