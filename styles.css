@@ -267,6 +267,7 @@ p {
 }
 
 /* ===== COMING SOON — CENTERED + BLUR ON HOVER (ONLY FOR CARDS WITH .coming-soon-text) ===== */
+/* ===== COMING SOON — CENTERED + BLUR ON HOVER (ONLY FOR CARDS WITH .coming-soon-text) ===== */
 #content .card .coming-soon-text,
 #tools .card .coming-soon-text {
   position: absolute;
