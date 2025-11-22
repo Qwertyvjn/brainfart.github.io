@@ -7,6 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
   <style>
     :root {
       --bg: #121212;
@@ -36,9 +40,9 @@
       scroll-behavior: smooth;
       overflow-x: auto;
       overflow-y: hidden;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
     }
-    .scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+    .scroll-container::-webkit-scrollbar { display: none; }
 
     .section {
       flex: 0 0 100vw;
@@ -146,6 +150,16 @@
     <section class="section active" id="hero">
       <div class="bg-layer" style="background: radial-gradient(circle, var(--accent), transparent);"></div>
       <div class="content fade-in">
+        <div class="hero-animation" style="width: 100%; max-width: 400px; margin: 0 auto 2rem;">
+          <dotlottie-player 
+            src="https://lottie.host/3e67a9d6-8a7f-4f8e-8f4a-7c6f0a0c7b5e/9Vz5jDxJ6X.json"
+            background="transparent"
+            speed="1"
+            style="width: 100%; height: 200px;"
+            loop
+            autoplay>
+          </dotlottie-player>
+        </div>
         <h1>Glenn Alvin</h1>
         <p>Environmental Engineering Undergraduate · Indonesia</p>
         <p>
@@ -215,7 +229,7 @@
 
     sections.forEach(section => observer.observe(section));
 
-    // Smooth scroll to next section on click (optional)
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') {
         const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
